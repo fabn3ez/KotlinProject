@@ -79,4 +79,33 @@ fun main() {
     println("Monthly Price   : KES ${"%,.2f".format(price)}")
     println("Availability    : ${if (isAvailable) "Available" else "Not Available"}")
     println("----------------------------------------")
+
+    // Conditional statements
+    // if/else: Check property availability
+    if (isAvailable) {
+        println("Property is available for viewing.")
+    } else {
+        println("Property is not available.")
+    }
+
+    // if/else if: Categorize property by price
+    if (price < 15000) {
+        println("Budget property (under KES 15,000)")
+    } else if (price < 30000) {
+        println("Mid-range property (KES 15,000 - 30,000)")
+    } else if (price < 65000) {
+        println("Premium property (KES 30,000 - 65,000)")
+    } else {
+        println("Luxury property (above KES 65,000)")
+    }
+
+    // when as an expression
+    val recommendation = when {
+        isAvailable && price < 30000 -> "Recommended: Available and affordable!"
+        isAvailable && price >= 30000 -> "Available but pricey"
+        !isAvailable -> "Not available"
+        else -> "Check property details"
+    }
+    println("Recommendation: $recommendation")
+
 }
