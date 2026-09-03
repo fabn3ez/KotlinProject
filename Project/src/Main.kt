@@ -134,6 +134,37 @@ println()
     repeat(2) {
         println("Property #$propertyId listing confirmed.")
     }
+    // ==================================================
+    // COLLECTIONS: Manage multiple property listings
+    // ==================================================
+
+    // list of property addresses
+    val propertyAddresses = listOf("A-204, Nairobi", "B-101, Nairobi", "C-305, Nairobi")
+
+    println("Property Addresses")
+    for (i in 0 until propertyAddresses.size) {
+        println("${i + 1}. ${propertyAddresses[i]}")
+    }
+
+    // a mutable list of rental prices
+    val rentalPrices = mutableListOf(25000, 18000, 30000)
+
+    println("\nRental Prices")
+    for (i in 0 until rentalPrices.size) {
+        println("KES ${rentalPrices[i]}")
+    }
+
+    // addition of new property price and removal of one
+    rentalPrices.add(22000)
+    rentalPrices.remove(18000)
+
+    println("\n Updated Rental Prices ")
+    println(rentalPrices.joinToString(", "))
+
+    // arrays example
+    val bedroomsArray = arrayOf(2, 1, 3)
+    println("\n Bedrooms Array ")
+    println("Second property has ${bedroomsArray[1]} bedroom(s)")
 
 
 
