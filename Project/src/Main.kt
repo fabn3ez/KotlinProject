@@ -108,4 +108,35 @@ fun main() {
     }
     println("Recommendation: $recommendation")
 
+
+    // Loops
+println()
+    // do-while loop: Property Status
+    println("Property Status")
+
+    var statusCheck = 1
+
+    do {
+        if (isAvailable) {
+            println("Property #$propertyId is currently available.")
+        } else {
+            println("Property #$propertyId is currently not available.")
+        }
+
+        statusCheck--
+    } while (statusCheck > 0)
+
+println()
+
+    // repeat loop: Confirm the registered property listing
+    println("Listing Confirmation")
+
+    repeat(2) {
+        println("Property #$propertyId listing confirmed.")
+    }
+
+
+
+
+
 }
