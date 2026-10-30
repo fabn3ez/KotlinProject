@@ -1,1 +1,13 @@
 doc/
+docs/brian_implementation_plan.md
+.gradle/
+build/
+app/build/
+*.iml
+.idea/
+docs/brian_implementation_plan.md
+.gradle/
+build/
+app/build/
+*.iml
+.idea/
