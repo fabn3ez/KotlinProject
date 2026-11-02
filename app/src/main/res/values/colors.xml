@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary_navy">#1E293B</color>
+    <color name="primary_accent_blue">#2563EB</color>
+    <color name="surface_light">#F8FAFC</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="status_available_bg">#DCFCE7</color>
+    <color name="status_available_text">#15803D</color>
+    <color name="status_booked_bg">#F1F5F9</color>
+    <color name="status_booked_text">#64748B</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#475569</color>
+    <color name="border_light">#E2E8F0</color>
+</resources>
