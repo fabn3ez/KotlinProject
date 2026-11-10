@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.navigation:navigation-fragment-ktx:2.10.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.10.2")
     // Room Database
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
