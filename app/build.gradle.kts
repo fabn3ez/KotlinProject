@@ -2,25 +2,25 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
     namespace = "com.group5.track"
     compileSdk = 34
-    
+
     defaultConfig {
         applicationId = "com.group5.track"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
-        
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        
-        // Room schema export for version control
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
+    }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
     
     buildTypes {
@@ -48,8 +48,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-fragment-ktx:2.10.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.10.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     // Room Database
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
