@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.group5.track.data.local.entity.PropertyEntity
+import com.group5.track.data.repository.CurrencyRepository
 import com.group5.track.data.repository.PropertyRepository
 import com.group5.track.domain.PropertyDomainHelper
 import com.group5.track.domain.PropertyDomainHelper.PriceCategory
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class PropertyViewModel(
-    private val repository: PropertyRepository
+    private val repository: PropertyRepository,
+    private val currencyRepository: CurrencyRepository? = null
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
@@ -22,6 +24,28 @@ class PropertyViewModel(
     private val _validationState = MutableStateFlow(ValidationResult(isValid = true))
     private val _userMessage = MutableStateFlow<String?>(null)
     private val _lastDeletedProperty = MutableStateFlow<PropertyEntity?>(null)
+    private val _exchangeRates = MutableStateFlow(
+        Pair(
+            currencyRepository?.getCachedUsdRate() ?: CurrencyRepository.DEFAULT_KES_TO_USD,
+            currencyRepository?.getCachedEurRate() ?: CurrencyRepository.DEFAULT_KES_TO_EUR
+        )
+    )
+    private val _isRateLoading = MutableStateFlow(false)
+
+    init {
+        fetchCurrencyRates()
+    }
+
+    fun fetchCurrencyRates() {
+        if (currencyRepository == null) return
+        viewModelScope.launch {
+            _isRateLoading.value = true
+            currencyRepository.getKesExchangeRates().onSuccess { rates ->
+                _exchangeRates.value = rates
+            }
+            _isRateLoading.value = false
+        }
+    }
 
     // Combines Room DB Flow with active search & filter StateFlows
     val uiState: StateFlow<PropertyUiState> = combine(
@@ -31,7 +55,9 @@ class PropertyViewModel(
         _selectedPriceCategory,
         _validationState,
         _userMessage,
-        _lastDeletedProperty
+        _lastDeletedProperty,
+        _exchangeRates,
+        _isRateLoading
     ) { values ->
         @Suppress("UNCHECKED_CAST")
         val allProperties = values[0] as List<PropertyEntity>
@@ -41,6 +67,9 @@ class PropertyViewModel(
         val validation = values[4] as ValidationResult
         val message = values[5] as String?
         val deleted = values[6] as PropertyEntity?
+        @Suppress("UNCHECKED_CAST")
+        val rates = values[7] as Pair<Double, Double>
+        val loadingRates = values[8] as Boolean
 
         val filteredList = allProperties.filter { property ->
             val matchesQuery = query.isBlank() ||
@@ -75,7 +104,10 @@ class PropertyViewModel(
             isLoading = false,
             validationState = validation,
             userMessage = message,
-            lastDeletedProperty = deleted
+            lastDeletedProperty = deleted,
+            kesToUsdRate = rates.first,
+            kesToEurRate = rates.second,
+            isExchangeRateLoading = loadingRates
         )
     }.stateIn(
         scope = viewModelScope,
@@ -211,12 +243,13 @@ class PropertyViewModel(
 }
 
 class PropertyViewModelFactory(
-    private val repository: PropertyRepository
+    private val repository: PropertyRepository,
+    private val currencyRepository: CurrencyRepository? = null
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PropertyViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return PropertyViewModel(repository) as T
+            return PropertyViewModel(repository, currencyRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

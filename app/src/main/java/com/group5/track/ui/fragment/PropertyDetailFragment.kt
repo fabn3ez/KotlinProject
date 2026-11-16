@@ -32,7 +32,7 @@ class PropertyDetailFragment : Fragment() {
 
     private val viewModel: PropertyViewModel by activityViewModels {
         val app = requireActivity().application as TrackApplication
-        PropertyViewModelFactory(app.repository)
+        PropertyViewModelFactory(app.repository, app.currencyRepository)
     }
 
     private var currentProperty: PropertyEntity? = null
@@ -63,17 +63,22 @@ class PropertyDetailFragment : Fragment() {
 
                     if (property != null) {
                         currentProperty = property
-                        bindProperty(property)
+                        bindProperty(property, state.kesToUsdRate, state.kesToEurRate)
                     }
                 }
             }
         }
     }
 
-    private fun bindProperty(property: PropertyEntity) {
+    private fun bindProperty(property: PropertyEntity, usdRate: Double, eurRate: Double) {
         binding.tvTitle.text = property.title
         binding.tvAddress.text = property.address
         binding.tvPrice.text = "KES ${String.format("%,.0f", property.monthlyPrice)} / month"
+
+        val priceUsd = property.monthlyPrice * usdRate
+        val priceEur = property.monthlyPrice * eurRate
+        binding.tvConvertedPrices.text = "≈ $${String.format("%,.2f", priceUsd)} USD | €${String.format("%,.2f", priceEur)} EUR"
+
         binding.tvBedrooms.text = "${property.bedrooms} Bedrooms (${property.propertyType})"
         binding.tvDescription.text = property.description.ifBlank { "No description provided." }
         binding.tvRecommendation.text = PropertyDomainHelper.getRecommendation(
