@@ -8,10 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.group5.track.R
+import com.group5.track.TrackApplication
 import com.group5.track.data.local.entity.PropertyEntity
 import com.group5.track.databinding.FragmentPropertyListBinding
+import com.group5.track.domain.PropertyDomainHelper.PriceCategory
 import com.group5.track.ui.adapter.PropertyListAdapter
+import com.group5.track.viewmodel.PropertyViewModel
+import com.group5.track.viewmodel.PropertyViewModelFactory
+import kotlinx.coroutines.launch
 
 class PropertyListFragment : Fragment() {
 
@@ -20,8 +31,11 @@ class PropertyListFragment : Fragment() {
 
     private lateinit var propertyAdapter: PropertyListAdapter
 
-    // List holding property records
-    private var rawPropertyList = listOf<PropertyEntity>()
+    // 1. Initialize shared PropertyViewModel
+    private val viewModel: PropertyViewModel by activityViewModels {
+        val app = requireActivity().application as TrackApplication
+        PropertyViewModelFactory(app.repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +51,7 @@ class PropertyListFragment : Fragment() {
 
         setupRecyclerView()
         setupSearchAndFilters()
-        loadSampleData()
+        observeViewModelState()
     }
 
     private fun setupRecyclerView() {
@@ -52,82 +66,67 @@ class PropertyListFragment : Fragment() {
     }
 
     private fun setupSearchAndFilters() {
-        // Real-time Search Listener
+        // 2. Forward search text directly to ViewModel
         binding.etSearchQuery.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                applyFilters()
+                viewModel.updateSearchQuery(s?.toString()?.trim().orEmpty())
             }
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // Price Filter Chips Listener
-        binding.chipGroupPrice.setOnCheckedStateChangeListener { _, _ ->
-            applyFilters()
-        }
-    }
-
-    private fun applyFilters() {
-        val query = binding.etSearchQuery.text.toString().trim()
-        val checkedChipId = binding.chipGroupPrice.checkedChipId
-
-        val filteredList = rawPropertyList.filter { property ->
-            // Text Search Matching using title or address)
-            val matchesQuery = property.title.contains(query, ignoreCase = true) ||
-                    property.address.contains(query, ignoreCase = true)
-
-            // Price range matching
-            val matchesPrice = when (checkedChipId) {
-                R.id.chipBudget -> property.monthlyPrice < 15000
-                R.id.chipMid -> property.monthlyPrice in 15000.0..30000.0
-                R.id.chipPremium -> property.monthlyPrice > 30000
-                else -> true // R.id.chipAll or unselected
+        // 3. Forward price chip selections directly to ViewModel
+        binding.chipGroupPrice.setOnCheckedStateChangeListener { _, checkedIds ->
+            val checkedChipId = checkedIds.firstOrNull() ?: View.NO_ID
+            val category = when (checkedChipId) {
+                R.id.chipBudget -> PriceCategory.BUDGET
+                R.id.chipMid -> PriceCategory.MID
+                R.id.chipPremium -> PriceCategory.PREMIUM
+                else -> PriceCategory.ALL
             }
-
-            matchesQuery && matchesPrice
+            viewModel.updatePriceCategoryFilter(category)
         }
-
-        if (filteredList.isEmpty()) {
-            binding.layoutEmptyState.visibility = View.VISIBLE
-            binding.rvPropertyList.visibility = View.GONE
-        } else {
-            binding.layoutEmptyState.visibility = View.GONE
-            binding.rvPropertyList.visibility = View.VISIBLE
-        }
-
-        // Update RecyclerView with filtered data
-        propertyAdapter.submitList(filteredList)
     }
 
-    private fun loadSampleData() {
-        // Sample dataset for testing UI before database integration
-        rawPropertyList = listOf(
-            PropertyEntity(
-                id = 1,
-                title = "Modern 2-Bed Studio",
-                address = "Kilimani, Nairobi",
-                monthlyPrice = 28000.0,
-                bedrooms = 2,
-                isAvailable = true
-            ),
-            PropertyEntity(
-                id = 2,
-                title = "Cozy Budget Bedsitter",
-                address = "Roysambu, Nairobi",
-                monthlyPrice = 12000.0,
-                bedrooms = 1,
-                isAvailable = true
-            ),
-            PropertyEntity(
-                id = 3,
-                title = "Luxury Executive Villa",
-                address = "Karen, Nairobi",
-                monthlyPrice = 75000.0,
-                bedrooms = 4,
-                isAvailable = false
-            )
-        )
-        applyFilters()
+    // 4. Observe live filtered list and UX states from PropertyViewModel
+    private fun observeViewModelState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    if (state.properties.isEmpty()) {
+                        binding.layoutEmptyState.visibility = View.VISIBLE
+                        binding.rvPropertyList.visibility = View.GONE
+                    } else {
+                        binding.layoutEmptyState.visibility = View.GONE
+                        binding.rvPropertyList.visibility = View.VISIBLE
+                    }
+
+                    propertyAdapter.submitList(state.properties)
+
+                    state.userMessage?.let { message ->
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                        viewModel.clearUserMessage()
+                    }
+                }
+            }
+        }
+    }
+
+    // 5. Delete Confirmation Dialog + Undo Snackbar (ready for card delete/swipe triggers)
+    fun confirmAndDeleteProperty(property: PropertyEntity) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Property")
+            .setMessage("Are you sure you want to remove '${property.title}'?")
+            .setNegativeButton("Cancel", null)
+            .setPositiveButton("Delete") { _, _ ->
+                viewModel.deleteProperty(property)
+                Snackbar.make(requireView(), "Listing removed", Snackbar.LENGTH_LONG)
+                    .setAction("UNDO") {
+                        viewModel.undoDelete()
+                    }
+                    .show()
+            }
+            .show()
     }
 
     override fun onDestroyView() {
