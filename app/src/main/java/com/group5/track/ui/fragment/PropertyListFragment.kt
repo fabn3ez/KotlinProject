@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.group5.track.R
@@ -42,11 +43,10 @@ class PropertyListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         propertyAdapter = PropertyListAdapter { selectedProperty ->
-            Toast.makeText(
-                requireContext(),
-                "Clicked: ${selectedProperty.title}",
-                Toast.LENGTH_SHORT
-            ).show()
+
+            findNavController().navigate(
+                R.id.action_propertyListFragment_to_propertyDetailFragment
+            )
         }
         binding.rvPropertyList.adapter = propertyAdapter
     }
@@ -106,25 +106,34 @@ class PropertyListFragment : Fragment() {
                 id = 1,
                 title = "Modern 2-Bed Studio",
                 address = "Kilimani, Nairobi",
+                propertyType = "Apartment",
                 monthlyPrice = 28000.0,
                 bedrooms = 2,
-                isAvailable = true
+                isAvailable = true,
+                agentPhone = "0712345678",
+                description = "Modern apartment in Kilimani"
             ),
             PropertyEntity(
                 id = 2,
                 title = "Cozy Budget Bedsitter",
                 address = "Roysambu, Nairobi",
+                propertyType = "Bedsitter",
                 monthlyPrice = 12000.0,
                 bedrooms = 1,
-                isAvailable = true
+                isAvailable = true,
+                agentPhone = "0723456789",
+                description = "Affordable bedsitter near Roysambu"
             ),
             PropertyEntity(
                 id = 3,
                 title = "Luxury Executive Villa",
                 address = "Karen, Nairobi",
+                propertyType = "House",
                 monthlyPrice = 75000.0,
                 bedrooms = 4,
-                isAvailable = false
+                isAvailable = false,
+                agentPhone = "0734567890",
+                description = "Luxury villa located in Karen"
             )
         )
         applyFilters()
