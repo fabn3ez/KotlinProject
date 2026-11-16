@@ -33,10 +33,53 @@ class DashboardFragment : Fragment() {
 
     private fun loadDashboardMetrics() {
         val properties = listOf(
-            PropertyEntity(1, "Modern 2-Bed Studio", "Kilimani, Nairobi", 28000.0, 2, true),
-            PropertyEntity(2, "Cozy Budget Bedsitter", "Roysambu, Nairobi", 12000.0, 1, true),
-            PropertyEntity(3, "Luxury Executive Villa", "Karen, Nairobi", 75000.0, 4, false),
-            PropertyEntity(4, "Urban Penthouse Suite", "Westlands, Nairobi", 90000.0, 3, true)
+            PropertyEntity(
+                id = 1,
+                title = "Modern 2-Bed Studio",
+                address = "Kilimani, Nairobi",
+                propertyType = "Apartment",
+                monthlyPrice = 28000.0,
+                bedrooms = 2,
+                isAvailable = true,
+                agentPhone = "0712345678",
+                description = "Modern apartment in Kilimani"
+            ),
+
+            PropertyEntity(
+                id = 2,
+                title = "Cozy Budget Bedsitter",
+                address = "Roysambu, Nairobi",
+                propertyType = "Bedsitter",
+                monthlyPrice = 12000.0,
+                bedrooms = 1,
+                isAvailable = true,
+                agentPhone = "0723456789",
+                description = "Affordable bedsitter near Roysambu"
+            ),
+
+            PropertyEntity(
+                id = 3,
+                title = "Luxury Executive Villa",
+                address = "Karen, Nairobi",
+                propertyType = "House",
+                monthlyPrice = 75000.0,
+                bedrooms = 4,
+                isAvailable = false,
+                agentPhone = "0734567890",
+                description = "Luxury villa located in Karen"
+            ),
+
+            PropertyEntity(
+                id = 4,
+                title = "Urban Penthouse Suite",
+                address = "Westlands, Nairobi",
+                propertyType = "Apartment",
+                monthlyPrice = 90000.0,
+                bedrooms = 3,
+                isAvailable = true,
+                agentPhone = "0745678901",
+                description = "Premium penthouse suite in Westlands"
+            )
         )
 
         // Calculate summary counts
