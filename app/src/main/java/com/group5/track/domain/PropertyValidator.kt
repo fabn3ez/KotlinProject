@@ -1,4 +1,4 @@
-package com.example.realestate.domain
+package com.group5.track.domain
 
 data class ValidationResult(
     val isValid: Boolean,
