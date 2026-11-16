@@ -15,50 +15,94 @@
             android:layout_height="wrap_content"
             android:text="3 Bedroom Apartment"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvRecommendation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="⭐ Recommended: Available and affordable!"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nairobi West"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Nairobi West" />
 
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="KES 25,000"
-            android:layout_marginTop="8dp"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvConvertedPrices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="≈ $192.50 USD | €177.50 EUR (Live Rate)"
+            android:textSize="14sp"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/tvBedrooms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3 Bedrooms"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="3 Bedrooms" />
 
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Property description goes here"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Property description goes here" />
 
         <Button
             android:id="@+id/btnCall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Call Agent"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="24dp"
+            android:text="Call Agent" />
 
         <Button
             android:id="@+id/btnBook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Book Viewing"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Book Viewing via SMS" />
+
+        <Button
+            android:id="@+id/btnToggleStatus"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Mark as Booked" />
+
+        <Button
+            android:id="@+id/btnEditProperty"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Edit Listing" />
+
+        <Button
+            android:id="@+id/btnDeleteProperty"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Delete Listing"
+            android:textColor="@android:color/holo_red_dark" />
 
     </LinearLayout>
-
 </ScrollView>
