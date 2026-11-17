@@ -2,25 +2,25 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
     namespace = "com.group5.track"
     compileSdk = 34
-    
+
     defaultConfig {
         applicationId = "com.group5.track"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
-        
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        
-        // Room schema export for version control
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
+    }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
     
     buildTypes {
@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     // Room Database
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -64,7 +66,15 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
+    implementation("androidx.fragment:fragment-ktx:1.8.4")
+
+    // Retrofit & Networking (API Integration)
+    val retrofitVersion = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     
     // Testing
     testImplementation("junit:junit:4.13.2")

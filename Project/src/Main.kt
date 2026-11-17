@@ -21,7 +21,7 @@ fun main() {
 
     // var: can be changed
     var activeUsers = 10
-    activeUsers = 15 // Reassignment works perfectly
+    activeUsers = 15
 
     val releaseYear: Int = 2026
     var isPublished: Boolean = false
@@ -126,7 +126,7 @@ println()
         statusCheck--
     } while (statusCheck > 0)
 
-println()
+    println()
 
     // repeat loop: Confirm the registered property listing
     println("Listing Confirmation")
