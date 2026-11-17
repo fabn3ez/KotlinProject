@@ -72,7 +72,7 @@ class PropertyListFragment : Fragment() {
         val checkedChipId = binding.chipGroupPrice.checkedChipId
 
         val filteredList = rawPropertyList.filter { property ->
-            // Text Search Matching using title or address)
+            // Text Search Matching using title or address
             val matchesQuery = property.title.contains(query, ignoreCase = true) ||
                     property.address.contains(query, ignoreCase = true)
 
@@ -103,28 +103,37 @@ class PropertyListFragment : Fragment() {
         // Sample dataset for testing UI before database integration
         rawPropertyList = listOf(
             PropertyEntity(
-                id = 1,
+                id = 1L,
                 title = "Modern 2-Bed Studio",
                 address = "Kilimani, Nairobi",
+                propertyType = "Apartment",
                 monthlyPrice = 28000.0,
                 bedrooms = 2,
-                isAvailable = true
+                isAvailable = true,
+                agentPhone = "+254712345678",
+                description = "Spacious 2-bedroom studio apartment with modern finishes and 24/7 security."
             ),
             PropertyEntity(
-                id = 2,
+                id = 2L,
                 title = "Cozy Budget Bedsitter",
                 address = "Roysambu, Nairobi",
+                propertyType = "Bedsitter",
                 monthlyPrice = 12000.0,
                 bedrooms = 1,
-                isAvailable = true
+                isAvailable = true,
+                agentPhone = "+254723456789",
+                description = "Affordable bedsitter close to Thika Road with reliable water supply."
             ),
             PropertyEntity(
-                id = 3,
+                id = 3L,
                 title = "Luxury Executive Villa",
                 address = "Karen, Nairobi",
+                propertyType = "Villa",
                 monthlyPrice = 75000.0,
                 bedrooms = 4,
-                isAvailable = false
+                isAvailable = false,
+                agentPhone = "+254734567890",
+                description = "Gated 4-bedroom executive villa featuring a private compound and DSQ."
             )
         )
         applyFilters()
