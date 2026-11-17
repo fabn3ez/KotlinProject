@@ -15,5 +15,33 @@
         android:id="@+id/propertyListFragment"
         android:name="com.group5.track.ui.fragment.PropertyListFragment"
         android:label="Properties"
-        tools:layout="@layout/fragment_property_list" />
+        tools:layout="@layout/fragment_property_list">
+
+        <action
+            android:id="@+id/action_propertyListFragment_to_propertyDetailFragment"
+            app:destination="@id/propertyDetailFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/propertyDetailFragment"
+        android:name="com.group5.track.ui.fragment.PropertyDetailFragment"
+        android:label="Property Detail"
+        tools:layout="@layout/fragment_property_detail">
+        <argument
+            android:name="propertyId"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_propertyDetailFragment_to_addEditPropertyFragment"
+            app:destination="@id/addEditPropertyFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditPropertyFragment"
+        android:name="com.group5.track.ui.fragment.AddEditPropertyFragment"
+        android:label="Add Property"
+        tools:layout="@layout/fragment_add_edit_property" />
+
 </navigation>
