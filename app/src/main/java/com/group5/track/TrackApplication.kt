@@ -2,6 +2,7 @@ package com.group5.track
 
 import android.app.Application
 import com.group5.track.data.local.database.AppDatabase
+import com.group5.track.data.repository.CurrencyRepository
 import com.group5.track.data.repository.PropertyRepository
 
 class TrackApplication : Application() {
@@ -12,5 +13,9 @@ class TrackApplication : Application() {
 
     val repository: PropertyRepository by lazy {
         PropertyRepository(database.propertyDao())
+    }
+
+    val currencyRepository: CurrencyRepository by lazy {
+        CurrencyRepository(this)
     }
 }
