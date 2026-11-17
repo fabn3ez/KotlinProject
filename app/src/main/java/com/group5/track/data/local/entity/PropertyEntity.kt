@@ -24,9 +24,6 @@ data class PropertyEntity(
     @ColumnInfo(name = "address")
     val address: String,
 
-    @ColumnInfo(name = "property_type")
-    val propertyType: String,
-
     @ColumnInfo(name = "monthly_price")
     val monthlyPrice: Double,
 
@@ -34,13 +31,16 @@ data class PropertyEntity(
     val bedrooms: Int,
 
     @ColumnInfo(name = "is_available")
-    val isAvailable: Boolean,
+    val isAvailable: Boolean = true,
+
+    @ColumnInfo(name = "property_type")
+    val propertyType: String = "Apartment",
 
     @ColumnInfo(name = "agent_phone")
-    val agentPhone: String,
+    val agentPhone: String = "",
 
     @ColumnInfo(name = "description")
-    val description: String,
+    val description: String = "",
 
     @ColumnInfo(name = "created_at")
     val createdAt: Long = System.currentTimeMillis()
