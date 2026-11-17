@@ -6,37 +6,84 @@
     android:layout_height="match_parent"
     android:background="@color/surface_light">
 
+    <!-- Screen Title & Subtitle (Matches Dashboard Header) -->
+    <TextView
+        android:id="@+id/tvHeaderTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:letterSpacing="-0.02"
+        android:text="Explore Properties"
+        android:textColor="@color/text_primary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHeaderSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="2dp"
+        android:text="Filter rentals by neighborhood or monthly budget"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeaderTitle" />
+
+    <!-- Elevated White Search Box -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchTextInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Search location or title..."
-        app:startIconDrawable="@android:drawable/ic_menu_search"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="14dp"
+        android:hint="Search Kilimani, Karen, bedsitter..."
+        app:boxBackgroundColor="@color/card_background"
+        app:boxCornerRadiusBottomEnd="14dp"
+        app:boxCornerRadiusBottomStart="14dp"
+        app:boxCornerRadiusTopEnd="14dp"
+        app:boxCornerRadiusTopStart="14dp"
+        app:boxStrokeColor="@color/primary_accent_blue"
+        app:boxStrokeWidth="1dp"
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/ic_search"
+        app:startIconTint="@color/primary_accent_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvHeaderSubtitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSearchQuery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Horizontal Price Bracket Filter Chips -->
     <HorizontalScrollView
         android:id="@+id/filterScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
         android:paddingHorizontal="16dp"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/searchTextInputLayout">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="8dp"
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
@@ -45,69 +92,120 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="All Prices" />
+                android:text="All Prices"
+                app:chipBackgroundColor="@color/card_background"
+                app:chipCornerRadius="20dp"
+                app:chipStrokeColor="@color/border_light"
+                app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipBudget"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Budget (&lt;15k)" />
+                android:text="Budget (Below 15k)"
+                app:chipBackgroundColor="@color/card_background"
+                app:chipCornerRadius="20dp"
+                app:chipStrokeColor="@color/border_light"
+                app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMid"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mid (15k-30k)" />
+                android:text="Mid (15k-30k)"
+                app:chipBackgroundColor="@color/card_background"
+                app:chipCornerRadius="20dp"
+                app:chipStrokeColor="@color/border_light"
+                app:chipStrokeWidth="1dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipPremium"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Premium (&gt;30k)" />
+                android:text="Premium (Above 30k)"
+                app:chipBackgroundColor="@color/card_background"
+                app:chipCornerRadius="20dp"
+                app:chipStrokeColor="@color/border_light"
+                app:chipStrokeWidth="1dp" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
+    <!-- Property Cards List (Cards already carry 16dp horizontal margins) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPropertyList"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         android:clipToPadding="false"
-        android:paddingTop="8dp"
-        android:paddingBottom="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterScrollView" />
 
+    <!-- Upgraded Empty State with Soft Cobalt Backdrop -->
     <LinearLayout
         android:id="@+id/layoutEmptyState"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginHorizontal="32dp"
         android:gravity="center"
+        android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterScrollView">
 
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@android:drawable/ic_menu_search"
-            app:tint="@color/text_secondary" />
+        <FrameLayout
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/bg_kpi_circle">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:contentDescription="No Results"
+                android:src="@drawable/ic_search"
+                app:tint="@color/primary_accent_blue" />
+        </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="No properties found in this price bracket"
+            android:textAlignment="center"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Try clearing your search or tapping All Prices."
+            android:textAlignment="center"
             android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </LinearLayout>
+
+    <!-- Cobalt Blue Loading Indicator -->
+    <ProgressBar
+        android:id="@+id/progressBarLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/primary_accent_blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterScrollView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,21 +35,23 @@ class PropertyListAdapter(
             binding.tvTitle.text = property.title
             binding.tvAddress.text = property.address
             binding.tvPrice.text = "KES ${String.format("%,.0f", property.monthlyPrice)}/mo"
-            binding.tvBedrooms.text = "${property.bedrooms} Beds"
+            binding.tvBedrooms.text = if (property.bedrooms == 1) {
+                "1 Bed"
+            } else {
+                "${property.bedrooms} Beds"
+            }
 
             if (property.isAvailable) {
                 binding.tvStatusBadge.text = "Available"
-                binding.tvStatusBadge.setBackgroundColor(
-                    ContextCompat.getColor(itemView.context, R.color.status_available_bg)
-                )
+                binding.tvStatusBadge.backgroundTintList =
+                    ContextCompat.getColorStateList(itemView.context, R.color.status_available_bg)
                 binding.tvStatusBadge.setTextColor(
                     ContextCompat.getColor(itemView.context, R.color.status_available_text)
                 )
             } else {
                 binding.tvStatusBadge.text = "Booked"
-                binding.tvStatusBadge.setBackgroundColor(
-                    ContextCompat.getColor(itemView.context, R.color.status_booked_bg)
-                )
+                binding.tvStatusBadge.backgroundTintList =
+                    ContextCompat.getColorStateList(itemView.context, R.color.status_booked_bg)
                 binding.tvStatusBadge.setTextColor(
                     ContextCompat.getColor(itemView.context, R.color.status_booked_text)
                 )
