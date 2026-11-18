@@ -66,28 +66,18 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     
     // Lifecycle & Architecture Components
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    implementation("androidx.fragment:fragment-ktx:1.8.4")
 
     // Retrofit & OkHttp
     val retrofitVersion = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-    val okhttpVersion = "4.11.0"
+    val okhttpVersion = "4.12.0"
     implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttpVersion")
-    // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
-    implementation("androidx.fragment:fragment-ktx:1.8.4")
-
-    // Retrofit & Networking (API Integration)
-    val retrofitVersion = "2.9.0"
-    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     
     // Testing
     testImplementation("junit:junit:4.13.2")

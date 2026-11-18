@@ -18,9 +18,35 @@
         android:textColor="@color/text_primary"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/layoutRoleSwitch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Prototype role switch: off = Tenant, on = Agent -->
+    <LinearLayout
+        android:id="@+id/layoutRoleSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_role_pill"
+        android:gravity="center_vertical"
+        android:paddingVertical="2dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvHeaderTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvHeaderTitle">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchAgentMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agent mode"
+            android:textColor="@color/primary_accent_blue"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:switchPadding="8dp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvHeaderSubtitle"
@@ -141,7 +167,7 @@
         android:layout_marginTop="4dp"
         android:clipToPadding="false"
         android:paddingTop="6dp"
-        android:paddingBottom="20dp"
+        android:paddingBottom="88dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -207,5 +233,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterScrollView" />
+
+    <!-- Agent-only: runs the WorkManager listing audit immediately (demo) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRunAudit"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/card_background"
+        android:text="Run audit"
+        android:textAllCaps="false"
+        android:textColor="@color/primary_accent_blue"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:cornerRadius="24dp"
+        app:strokeColor="@color/primary_accent_blue"
+        app:strokeWidth="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Agent-only: opens the Add Property form -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabAddProperty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Add listing"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:backgroundTint="@color/primary_accent_blue"
+        app:elevation="4dp"
+        app:icon="@drawable/ic_add"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
