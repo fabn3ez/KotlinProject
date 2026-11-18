@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class TrackApplication : Application() {
 
+    val isAgentMode = MutableStateFlow(false)
+
     val database: AppDatabase by lazy {
         AppDatabase.getDatabase(this)
     }

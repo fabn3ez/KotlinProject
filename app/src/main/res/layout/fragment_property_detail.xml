@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/surface_light"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,100 +12,204 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+        <!-- Property information card (same look as the list cards) -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3 Bedroom Apartment"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp"
+            app:strokeColor="@color/border_light"
+            app:strokeWidth="1dp">
 
-        <TextView
-            android:id="@+id/tvRecommendation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="⭐ Recommended: Available and affordable!"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Nairobi West" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:contentDescription="Property Image"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_property_banner" />
 
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="KES 25,000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvConvertedPrices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="≈ $192.50 USD | €177.50 EUR (Live Rate)"
-            android:textSize="14sp"
-            android:textColor="?attr/colorPrimary"
-            android:textStyle="italic" />
+                    <TextView
+                        android:id="@+id/tvRecommendation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_spec_chip"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:text="Recommended: Available and affordable!"
+                        android:textColor="@color/primary_navy"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvBedrooms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="3 Bedrooms" />
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:letterSpacing="-0.02"
+                        android:text="3 Bedroom Apartment"
+                        android:textColor="@color/text_primary"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Property description goes here" />
+                    <TextView
+                        android:id="@+id/tvAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Nairobi West"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
 
-        <Button
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="KES 25,000"
+                        android:textColor="@color/primary_accent_blue"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvConvertedPrices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="≈ $192.50 USD | €177.50 EUR"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="16dp"
+                        android:background="@color/border_light" />
+
+                    <TextView
+                        android:id="@+id/tvBedrooms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_spec_chip"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:text="3 Bedrooms"
+                        android:textColor="@color/primary_navy"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="About this property"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:lineSpacingExtra="3dp"
+                        android:text="Property description goes here"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Tenant actions -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCall"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Call Agent" />
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/primary_accent_blue"
+            android:minHeight="52dp"
+            android:text="Call Agent"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:cornerRadius="12dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBook"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Book Viewing via SMS" />
+            android:backgroundTint="@color/card_background"
+            android:minHeight="52dp"
+            android:text="Book Viewing via SMS"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_accent_blue"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/primary_accent_blue"
+            app:strokeWidth="1dp" />
 
-        <Button
+        <!-- Agent actions (shown only in Agent mode) -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnToggleStatus"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Mark as Booked" />
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/card_background"
+            android:minHeight="48dp"
+            android:text="Mark as Booked"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_navy"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/border_light"
+            app:strokeWidth="1dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEditProperty"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Edit Listing" />
+            android:backgroundTint="@color/accent_blue_tint"
+            android:minHeight="48dp"
+            android:text="Edit Listing"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_accent_blue"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/accent_blue_tint"
+            app:strokeWidth="1dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDeleteProperty"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/card_background"
+            android:minHeight="48dp"
             android:text="Delete Listing"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textAllCaps="false"
+            android:textColor="@color/danger_red"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/danger_red"
+            app:strokeWidth="1dp" />
 
     </LinearLayout>
 </ScrollView>

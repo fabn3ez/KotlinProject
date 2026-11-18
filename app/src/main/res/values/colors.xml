@@ -20,7 +20,10 @@
     <color name="status_booked_bg">#F1F5F9</color>
     <color name="status_booked_text">#475569</color>
 
+    <!-- Destructive actions -->
+    <color name="danger_red">#DC2626</color>
+
     <!-- Typography Hierarchy -->
     <color name="text_primary">#0F172A</color>
-    <color name="text_secondary">#64748B</color>
+    <color name="text_secondary">#427078</color>
 </resources>
