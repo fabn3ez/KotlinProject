@@ -106,34 +106,25 @@ class PropertyListFragment : Fragment() {
                 id = 1,
                 title = "Modern 2-Bed Studio",
                 address = "Kilimani, Nairobi",
-                propertyType = "Apartment",
                 monthlyPrice = 28000.0,
                 bedrooms = 2,
-                isAvailable = true,
-                agentPhone = "+254712345678",
-                description = "Modern 2-bed studio in Kilimani"
+                isAvailable = true
             ),
             PropertyEntity(
                 id = 2,
                 title = "Cozy Budget Bedsitter",
                 address = "Roysambu, Nairobi",
-                propertyType = "Bedsitter",
                 monthlyPrice = 12000.0,
                 bedrooms = 1,
-                isAvailable = true,
-                agentPhone = "+254722334455",
-                description = "Cozy budget bedsitter in Roysambu"
+                isAvailable = true
             ),
             PropertyEntity(
                 id = 3,
                 title = "Luxury Executive Villa",
                 address = "Karen, Nairobi",
-                propertyType = "Villa",
                 monthlyPrice = 75000.0,
                 bedrooms = 4,
-                isAvailable = false,
-                agentPhone = "+254733445566",
-                description = "Luxury executive villa in Karen"
+                isAvailable = false
             )
         )
         applyFilters()
