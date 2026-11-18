@@ -35,7 +35,7 @@ class DashboardFragment : Fragment() {
         val properties = listOf(
             PropertyEntity(
                 id = 1,
-                title = "Modern 2-Bed Studio",
+                title = "Modern 2-Bedroom Studio",
                 address = "Kilimani, Nairobi",
                 propertyType = "Apartment",
                 monthlyPrice = 28000.0,

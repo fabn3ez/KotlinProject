@@ -16,5 +16,8 @@ data class PropertyUiState(
     val isLoading: Boolean = true,
     val validationState: ValidationResult = ValidationResult(isValid = true),
     val userMessage: String? = null,
-    val lastDeletedProperty: PropertyEntity? = null
+    val lastDeletedProperty: PropertyEntity? = null,
+    val kesToUsdRate: Double = 0.0077,
+    val kesToEurRate: Double = 0.0071,
+    val isExchangeRateLoading: Boolean = false
 )

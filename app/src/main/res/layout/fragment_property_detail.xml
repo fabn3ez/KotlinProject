@@ -42,6 +42,16 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvConvertedPrices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="≈ $192.50 USD | €177.50 EUR (Live Rate)"
+            android:textSize="14sp"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="italic" />
+
+        <TextView
             android:id="@+id/tvBedrooms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
