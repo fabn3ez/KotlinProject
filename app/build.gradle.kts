@@ -7,14 +7,14 @@ plugins {
 android {
     namespace = "com.group5.track"
     compileSdk = 34
-
+    
     defaultConfig {
         applicationId = "com.group5.track"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
-
+        
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -75,8 +75,11 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     
-    // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    // Lifecycle & Architecture Components
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.fragment:fragment-ktx:1.8.4")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

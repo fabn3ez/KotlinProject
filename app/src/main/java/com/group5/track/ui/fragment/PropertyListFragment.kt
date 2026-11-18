@@ -7,11 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.group5.track.R
+import com.group5.track.TrackApplication
 import com.group5.track.data.local.entity.PropertyEntity
 import com.group5.track.databinding.FragmentPropertyListBinding
 import com.group5.track.ui.adapter.PropertyListAdapter
+import com.group5.track.viewmodel.PropertyViewModel
+import com.group5.track.viewmodel.PropertyViewModelFactory
+import com.group5.track.worker.ListingAuditScheduler
+import kotlinx.coroutines.launch
 
 class PropertyListFragment : Fragment() {
 
@@ -20,8 +31,15 @@ class PropertyListFragment : Fragment() {
 
     private lateinit var propertyAdapter: PropertyListAdapter
 
-    // List holding property records
+    // Properties currently stored in Room (before the local search/price filters)
     private var rawPropertyList = listOf<PropertyEntity>()
+
+    private val trackApp get() = requireActivity().application as TrackApplication
+
+    // Shared with the detail and add/edit screens
+    private val viewModel: PropertyViewModel by activityViewModels {
+        PropertyViewModelFactory(trackApp.repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,18 +55,62 @@ class PropertyListFragment : Fragment() {
 
         setupRecyclerView()
         setupSearchAndFilters()
-        loadSampleData()
+        observeProperties()
+        setupRoleControls()
     }
 
     private fun setupRecyclerView() {
         propertyAdapter = PropertyListAdapter { selectedProperty ->
+            // Open the detail screen for the tapped property
+            findNavController().navigate(
+                R.id.action_propertyListFragment_to_propertyDetailFragment,
+                bundleOf("propertyId" to selectedProperty.id)
+            )
+        }
+        binding.rvPropertyList.adapter = propertyAdapter
+    }
+
+    // Collect the Room-backed list from the ViewModel and refresh the RecyclerView
+    private fun observeProperties() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    if (state.isLoading) return@collect
+                    rawPropertyList = state.properties
+                    applyFilters()
+                }
+            }
+        }
+    }
+
+    // Tenant/Agent switch and the agent-only "Add listing" button
+    private fun setupRoleControls() {
+        binding.switchAgentMode.setOnCheckedChangeListener { _, isChecked ->
+            trackApp.isAgentMode.value = isChecked
+        }
+        binding.fabAddProperty.setOnClickListener {
+            findNavController().navigate(R.id.addEditPropertyFragment)
+        }
+        binding.btnRunAudit.setOnClickListener {
+            // staleDays = 0 so every available listing triggers the notification in the demo
+            ListingAuditScheduler.runNow(requireContext(), staleDays = 0)
             Toast.makeText(
                 requireContext(),
-                "Clicked: ${selectedProperty.title}",
+                "Audit started. Check your notifications.",
                 Toast.LENGTH_SHORT
             ).show()
         }
-        binding.rvPropertyList.adapter = propertyAdapter
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                trackApp.isAgentMode.collect { isAgent ->
+                    if (binding.switchAgentMode.isChecked != isAgent) {
+                        binding.switchAgentMode.isChecked = isAgent
+                    }
+                    binding.fabAddProperty.visibility = if (isAgent) View.VISIBLE else View.GONE
+                    binding.btnRunAudit.visibility = if (isAgent) View.VISIBLE else View.GONE
+                }
+            }
+        }
     }
 
     private fun setupSearchAndFilters() {
@@ -97,46 +159,6 @@ class PropertyListFragment : Fragment() {
 
         // Update RecyclerView with filtered data
         propertyAdapter.submitList(filteredList)
-    }
-
-    private fun loadSampleData() {
-        // Sample dataset for testing UI before database integration
-        rawPropertyList = listOf(
-            PropertyEntity(
-                id = 1,
-                title = "Modern 2-Bed Studio",
-                address = "Kilimani, Nairobi",
-                propertyType = "Apartment",
-                monthlyPrice = 28000.0,
-                bedrooms = 2,
-                isAvailable = true,
-                agentPhone = "+254712345678",
-                description = "Modern 2-bed studio in Kilimani"
-            ),
-            PropertyEntity(
-                id = 2,
-                title = "Cozy Budget Bedsitter",
-                address = "Roysambu, Nairobi",
-                propertyType = "Bedsitter",
-                monthlyPrice = 12000.0,
-                bedrooms = 1,
-                isAvailable = true,
-                agentPhone = "+254722334455",
-                description = "Cozy budget bedsitter in Roysambu"
-            ),
-            PropertyEntity(
-                id = 3,
-                title = "Luxury Executive Villa",
-                address = "Karen, Nairobi",
-                propertyType = "Villa",
-                monthlyPrice = 75000.0,
-                bedrooms = 4,
-                isAvailable = false,
-                agentPhone = "+254733445566",
-                description = "Luxury executive villa in Karen"
-            )
-        )
-        applyFilters()
     }
 
     override fun onDestroyView() {
