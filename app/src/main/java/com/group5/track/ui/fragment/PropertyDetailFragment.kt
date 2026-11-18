@@ -32,7 +32,7 @@ class PropertyDetailFragment : Fragment() {
 
     private val viewModel: PropertyViewModel by activityViewModels {
         val app = requireActivity().application as TrackApplication
-        PropertyViewModelFactory(app.repository, app.currencyRepository)
+        PropertyViewModelFactory(app.repository)
     }
 
     private var currentProperty: PropertyEntity? = null
@@ -52,6 +52,7 @@ class PropertyDetailFragment : Fragment() {
         val propertyId = arguments?.getLong("propertyId", -1L) ?: -1L
         observePropertyDetails(propertyId)
         setupActionButtons()
+        observeRoleVisibility()
     }
 
     private fun observePropertyDetails(propertyId: Long) {
@@ -70,6 +71,21 @@ class PropertyDetailFragment : Fragment() {
         }
     }
 
+    // Tenants can only view and contact; agents can also toggle, edit and delete
+    private fun observeRoleVisibility() {
+        val app = requireActivity().application as TrackApplication
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                app.isAgentMode.collect { isAgent ->
+                    val visibility = if (isAgent) View.VISIBLE else View.GONE
+                    binding.btnToggleStatus.visibility = visibility
+                    binding.btnEditProperty.visibility = visibility
+                    binding.btnDeleteProperty.visibility = visibility
+                }
+            }
+        }
+    }
+
     private fun bindProperty(property: PropertyEntity, usdRate: Double, eurRate: Double) {
         binding.tvTitle.text = property.title
         binding.tvAddress.text = property.address
@@ -77,7 +93,7 @@ class PropertyDetailFragment : Fragment() {
 
         val priceUsd = property.monthlyPrice * usdRate
         val priceEur = property.monthlyPrice * eurRate
-        binding.tvConvertedPrices.text = "≈ $${String.format("%,.2f", priceUsd)} USD | €${String.format("%,.2f", priceEur)} EUR"
+       // binding.tvConvertedPrices.text = "≈ $${String.format("%,.2f", priceUsd)} USD | €${String.format("%,.2f", priceEur)} EUR"
 
         binding.tvBedrooms.text = "${property.bedrooms} Bedrooms (${property.propertyType})"
         binding.tvDescription.text = property.description.ifBlank { "No description provided." }
